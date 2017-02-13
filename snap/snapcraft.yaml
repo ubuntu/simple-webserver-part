@@ -1,0 +1,27 @@
+name: simple-webserver-part
+version: '1.0'
+summary: Snapcraft simple webserver part
+description: |
+  In your snapcraft.yaml:
+  Just have one of your snapcraft part defining:
+  `after: [simple-webserver]`
+   Then, spawn a service with it, with the part relative to your snap to serve:
+
+  apps:
+    my-server:
+      command: webserver www
+      daemon: simple
+      restart-condition: always
+      plugs: [network-bind]
+
+  Here, `www` is relative to $SNAP from your own snap.
+  You can change the default port (8080) with the -p option, for instance:
+  command: webserver -p 9001 www.
+grade: stable
+confinement: strict
+
+parts:
+  simple-webserver:
+    source: .
+    plugin: go
+    go-importpath: github.com/ubuntu/simple-webserver-part
